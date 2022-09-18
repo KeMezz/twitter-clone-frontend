@@ -1,25 +1,20 @@
-import logo from './logo.svg';
-import './App.css';
+import styled from "styled-components";
+import NavBar from "./components/NavBar";
+import "./styles/reset.css";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Container>
+      <NavBar />
+    </Container>
   );
 }
+
+const Container = styled.main`
+  max-width: 1200px;
+  margin: 0 auto;
+  background-color: #333;
+  color: #fff;
+`;
 
 export default App;
