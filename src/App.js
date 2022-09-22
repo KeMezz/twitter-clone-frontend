@@ -8,6 +8,7 @@ import { lightTheme } from "./styles/theme";
 
 function App() {
   const [tweets, setTweets] = useState([]);
+  const [rerender, setRerender] = useState(0);
 
   const getTweets = async () => {
     const data = await (await fetch(`http://localhost:8080/tweets`)).json();
@@ -17,15 +18,15 @@ function App() {
 
   useEffect(() => {
     getTweets();
-  }, []);
+  }, [rerender]);
 
   return (
     <ThemeProvider theme={lightTheme}>
       <GlobalStyles />
       <Container>
         <Header />
-        <TweetInput />
-        <TweetsBoard>
+        <TweetInput setRerender={setRerender} />
+        <TweetsBoard setRerender={setRerender}>
           {tweets.map((tweet) => (
             <TweetCard key={tweet.id} {...tweet} />
           ))}

@@ -1,14 +1,23 @@
 import styled from "styled-components";
 
-function TweetCard({ id, text, createdAt, url, username }) {
+function TweetCard({ id, text, createdAt, url, username, setRerender }) {
+  const deleteTweet = async () => {
+    const response = await fetch(`http://localhost:8080/tweets/${id}`, {
+      method: "DELETE",
+    });
+    if (response.status === 204) {
+      setRerender((prev) => prev + 1);
+    }
+  };
+
   return (
     <CardContainer>
       <Buttons>
         <button>수정</button>
-        <button>삭제</button>
+        <button onClick={deleteTweet}>삭제</button>
       </Buttons>
       <Profile>
-        <ProfileImg src={url} alt={username}></ProfileImg>
+        <ProfileImg src={url}></ProfileImg>
       </Profile>
       <Message>
         <Username>@{username}</Username>

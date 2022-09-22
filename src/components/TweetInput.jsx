@@ -1,10 +1,20 @@
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
 
-function TweetInput() {
-  const { register, handleSubmit } = useForm();
-  const onSubmit = (tweet) => {
-    console.log(tweet);
+function TweetInput({ setRerender }) {
+  const { register, handleSubmit, reset } = useForm();
+  const onSubmit = async ({ text }) => {
+    console.log(text);
+    const response = await (
+      await fetch(`http://localhost:8080/tweets`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text, username: "bob", name: "bob" }),
+      })
+    ).json();
+    setRerender((prev) => prev + 1);
+    console.log("POST Tweet", response);
+    reset();
   };
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
