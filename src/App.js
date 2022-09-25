@@ -1,19 +1,36 @@
 import { useEffect, useState } from "react";
 import styled, { createGlobalStyle, ThemeProvider } from "styled-components";
+import GlobalOverlay from "./components/GlobalOverlay";
 import Header from "./components/Header";
 import TweetCard from "./components/TweetCard";
 import TweetInput from "./components/TweetInput";
+import { useSetRecoilState } from "recoil";
 import "./styles/reset.css";
 import { lightTheme } from "./styles/theme";
+import { callAPI } from "./utils/axios";
+import { globalOverlayStatus } from "./utils/recoils";
 
 function App() {
   const [tweets, setTweets] = useState([]);
   const [rerender, setRerender] = useState(0);
+  const setGlobalOverlay = useSetRecoilState(globalOverlayStatus);
 
   const getTweets = async () => {
-    const data = await (await fetch(`http://localhost:8080/tweets`)).json();
-    console.log(data);
-    setTweets(data);
+    callAPI
+      .get("/tweets")
+      .then((response) => console.log(response))
+      .catch((error) => {
+        console.log(error);
+        setGlobalOverlay({
+          isOpen: true,
+          title: "트윗 불러오기 실패",
+          message: error.message,
+          buttonClose: true,
+        });
+      });
+    // const data = await (await fetch(`http://localhost:8080/tweets`)).json();
+    // console.log(data);
+    // setTweets(data);
   };
 
   useEffect(() => {
@@ -22,6 +39,7 @@ function App() {
 
   return (
     <ThemeProvider theme={lightTheme}>
+      <GlobalOverlay />
       <GlobalStyles />
       <Container>
         <Header />
