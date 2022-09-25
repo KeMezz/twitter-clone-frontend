@@ -1,21 +1,31 @@
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
+import { globalOverlayStatus } from "../utils/recoils";
+import { useSetRecoilState } from "recoil";
+import { callAPI } from "../utils/axios";
 
 function TweetInput({ setRerender }) {
   const { register, handleSubmit, reset } = useForm();
-  const onSubmit = async ({ text }) => {
-    console.log(text);
-    const response = await (
-      await fetch(`http://localhost:8080/tweets`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text, username: "bob", name: "bob" }),
+  const setGlobalOverlay = useSetRecoilState(globalOverlayStatus);
+
+  const onSubmit = ({ text }) => {
+    callAPI
+      .post("/tweets", { text, username: "bob", name: "bob" })
+      .then(({ data }) => {
+        console.log(data);
+        setRerender((prev) => prev + 1);
+        reset();
       })
-    ).json();
-    setRerender((prev) => prev + 1);
-    console.log("POST Tweet", response);
-    reset();
+      .catch((error) => {
+        console.error(error);
+        setGlobalOverlay({
+          isOpen: true,
+          title: "트윗 업로드 오류",
+          message: error.message,
+        });
+      });
   };
+
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
       <Textarea
