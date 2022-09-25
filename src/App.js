@@ -15,10 +15,13 @@ function App() {
   const [rerender, setRerender] = useState(0);
   const setGlobalOverlay = useSetRecoilState(globalOverlayStatus);
 
-  const getTweets = async () => {
+  const getTweets = () => {
     callAPI
       .get("/tweets")
-      .then((response) => console.log(response))
+      .then(({ data }) => {
+        console.log(data);
+        setTweets(data);
+      })
       .catch((error) => {
         console.log(error);
         setGlobalOverlay({
@@ -28,9 +31,6 @@ function App() {
           buttonClose: true,
         });
       });
-    // const data = await (await fetch(`http://localhost:8080/tweets`)).json();
-    // console.log(data);
-    // setTweets(data);
   };
 
   useEffect(() => {
@@ -44,9 +44,9 @@ function App() {
       <Container>
         <Header />
         <TweetInput setRerender={setRerender} />
-        <TweetsBoard setRerender={setRerender}>
+        <TweetsBoard>
           {tweets.map((tweet) => (
-            <TweetCard key={tweet.id} {...tweet} />
+            <TweetCard key={tweet.id} {...tweet} setRerender={setRerender} />
           ))}
         </TweetsBoard>
       </Container>
