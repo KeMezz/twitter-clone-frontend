@@ -9,22 +9,31 @@ function TweetCard({ id, text, createdAt, url, username, setRerender }) {
   const setGlobalOverlay = useSetRecoilState(globalOverlayStatus);
   const inputRef = useRef();
 
-  const deleteTweet = async () => {
+  const deleteTweet = () => {
     callAPI
       .delete(`/tweets/${id}`)
-      .then(({ data }) => {
-        console.log(data);
+      .then((response) => {
+        console.log(response);
+        if (response.status === 204) {
+          setRerender((prev) => prev + 1);
+        } else {
+          setGlobalOverlay({
+            isOpen: true,
+            title: response.status,
+            message: response.statusText,
+          });
+        }
       })
       .catch((error) => {
-        console.error(error);
         setGlobalOverlay({
-          status: true,
+          isOpen: true,
           title: "트윗 삭제 실패",
-          message: error.message,
+          message: error.response.data.message,
         });
       });
-    setRerender((prev) => prev + 1);
   };
+
+  console.log(inputRef.current?.scrollHeight);
 
   const switchToUpdateMode = () => setUpdateMode(true);
   const endUpdateMode = () => setUpdateMode(false);
@@ -42,7 +51,7 @@ function TweetCard({ id, text, createdAt, url, username, setRerender }) {
         setGlobalOverlay({
           isOpen: true,
           title: "트윗 수정 실패",
-          message: error.message,
+          message: error.response.data.message,
         });
       });
   };
@@ -72,7 +81,7 @@ function TweetCard({ id, text, createdAt, url, username, setRerender }) {
       <Message>
         <Username>@{username}</Username>
         {updateMode ? (
-          <input type="text" defaultValue={text} ref={inputRef} />
+          <Textarea type="text" defaultValue={text} ref={inputRef} />
         ) : (
           text
         )}
@@ -119,10 +128,15 @@ const Message = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  /* width: calc(100% - 60px); */
   line-height: 1.4;
   width: 80%;
   gap: 10px;
+`;
+const Textarea = styled.textarea`
+  resize: none;
+  border-radius: 8px;
+  padding: 8px;
+  line-height: 1.4;
 `;
 const Username = styled.p`
   color: ${({ theme }) => theme.cardColor};
