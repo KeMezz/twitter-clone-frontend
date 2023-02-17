@@ -54,7 +54,7 @@ const Container = styled(motion.section)`
   z-index: 100;
 `;
 const ModalBox = styled(motion.div)`
-  min-width: 250px;
+  min-width: 300px;
   z-index: 100;
   background-color: #fff;
   padding: 24px;
@@ -62,7 +62,7 @@ const ModalBox = styled(motion.div)`
   text-align: center;
   display: flex;
   flex-direction: column;
-  gap: 22px;
+  gap: 30px;
 `;
 const Overlay = styled(motion.div)`
   width: 100vw;
