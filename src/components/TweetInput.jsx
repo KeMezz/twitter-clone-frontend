@@ -1,5 +1,5 @@
-import { useForm } from "react-hook-form";
 import styled from "styled-components";
+import { useForm } from "react-hook-form";
 import { globalOverlayStatus } from "../utils/recoils";
 import { useSetRecoilState } from "recoil";
 import { callAPI } from "../utils/axios";
@@ -10,9 +10,9 @@ function TweetInput({ setRerender }) {
 
   const onSubmit = ({ text }) => {
     callAPI
-      .post("/tweets", { text, username: "bob", name: "bob" })
-      .then(({ data }) => {
-        console.log(data);
+      .post("/tweet", { text, username: "bob" })
+      .then(({ status }) => {
+        console.log(status);
         setRerender((prev) => prev + 1);
         reset();
       })
