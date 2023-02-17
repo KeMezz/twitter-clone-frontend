@@ -15,27 +15,29 @@ function App() {
   const [rerender, setRerender] = useState(0);
   const setGlobalOverlay = useSetRecoilState(globalOverlayStatus);
 
-  const getTweets = () => {
+  useEffect(() => {
+    const controller = new AbortController();
     callAPI
-      .get("/tweets")
+      .get("/tweets", { signal: controller.signal })
       .then(({ data }) => {
         console.log(data);
         setTweets(data);
       })
       .catch((error) => {
         console.log(error);
-        setGlobalOverlay({
-          isOpen: true,
-          title: "트윗 불러오기 실패",
-          message: error.message,
-          buttonClose: true,
-        });
+        if (error.message !== "canceled") {
+          setGlobalOverlay({
+            isOpen: true,
+            title: "트윗 불러오기 실패",
+            message: error.message,
+            buttonClose: true,
+          });
+        }
       });
-  };
-
-  useEffect(() => {
-    getTweets();
-  }, [rerender]);
+    return () => {
+      controller.abort();
+    };
+  }, [setGlobalOverlay, rerender]);
 
   return (
     <ThemeProvider theme={lightTheme}>
