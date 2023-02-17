@@ -11,7 +11,7 @@ function TweetCard({ id, text, createdAt, url, username, setRerender }) {
 
   const deleteTweet = () => {
     callAPI
-      .delete(`/tweet?id=${id}`)
+      .delete(`/tweet`, { id })
       .then((response) => {
         console.log(response);
         if (response.status === 204) {
@@ -38,7 +38,7 @@ function TweetCard({ id, text, createdAt, url, username, setRerender }) {
 
   const updateTweet = () => {
     callAPI
-      .put(`/tweets/${id}`, { text: inputRef.current.value })
+      .put(`/tweet`, { id, text: inputRef.current.value })
       .then((response) => {
         console.log(response);
         setUpdateMode(false);
