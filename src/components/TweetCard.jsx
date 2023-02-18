@@ -11,7 +11,7 @@ function TweetCard({ id, text, createdAt, url, username, setRerender }) {
 
   const deleteTweet = () => {
     callAPI
-      .delete(`/tweet`, { id })
+      .delete(`/tweet`, { data: { id } })
       .then((response) => {
         console.log(response);
         if (response.status === 204) {
