@@ -5,9 +5,13 @@ import { globalOverlayStatus } from "../utils/recoils";
 import { useRef, useState } from "react";
 
 function TweetCard({ id, text, createdAt, url, username, setRerender }) {
+  const inputRef = useRef();
+
   const [updateMode, setUpdateMode] = useState(false);
   const setGlobalOverlay = useSetRecoilState(globalOverlayStatus);
-  const inputRef = useRef();
+
+  const switchToUpdateMode = () => setUpdateMode(true);
+  const endUpdateMode = () => setUpdateMode(false);
 
   const deleteTweet = () => {
     callAPI
@@ -32,9 +36,6 @@ function TweetCard({ id, text, createdAt, url, username, setRerender }) {
         });
       });
   };
-
-  const switchToUpdateMode = () => setUpdateMode(true);
-  const endUpdateMode = () => setUpdateMode(false);
 
   const updateTweet = () => {
     callAPI
@@ -95,7 +96,8 @@ const CardContainer = styled.section`
   display: flex;
   gap: 16px;
   padding: 12px;
-  background-color: ${({ theme }) => theme.bgColor};
+  background-color: #fff;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
   border-radius: 12px;
   position: relative;
 `;
