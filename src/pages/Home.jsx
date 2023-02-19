@@ -13,7 +13,7 @@ const Home = () => {
   useEffect(() => {
     const controller = new AbortController();
     callAPI
-      .get("/tweets", { signal: controller.signal })
+      .get("/tweet", { signal: controller.signal })
       .then(({ data }) => {
         console.log(data);
         setTweets(data);

@@ -16,7 +16,7 @@ const User = () => {
   useEffect(() => {
     const controller = new AbortController();
     callAPI
-      .get(`/tweets?username=${username}`, { signal: controller.signal })
+      .get(`/tweet?username=${username}`, { signal: controller.signal })
       .then(({ data }) => {
         console.log(data);
         setTweets(data);
