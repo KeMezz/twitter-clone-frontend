@@ -4,8 +4,17 @@ import { useSetRecoilState } from "recoil";
 import { globalOverlayStatus } from "../utils/recoils";
 import { useRef, useState } from "react";
 
-function TweetCard({ id, text, createdAt, url, username, setRerender }) {
+function TweetCard({
+  id,
+  userId,
+  text,
+  createdAt,
+  url,
+  username,
+  setRerender,
+}) {
   const inputRef = useRef();
+  const myUserId = localStorage.getItem("userId");
 
   const [updateMode, setUpdateMode] = useState(false);
   const setGlobalOverlay = useSetRecoilState(globalOverlayStatus);
@@ -57,23 +66,25 @@ function TweetCard({ id, text, createdAt, url, username, setRerender }) {
 
   return (
     <CardContainer>
-      <Buttons>
-        {updateMode ? (
-          <>
-            <Btn onClick={endUpdateMode}>취소</Btn>
-            <Btn onClick={updateTweet}>수정 완료</Btn>
-          </>
-        ) : (
-          <>
-            <Btn color="blue" onClick={switchToUpdateMode}>
-              수정
-            </Btn>
-            <Btn onClick={deleteTweet} color="crimson">
-              삭제
-            </Btn>
-          </>
-        )}
-      </Buttons>
+      {myUserId === userId ? (
+        <Buttons>
+          {updateMode ? (
+            <>
+              <Btn onClick={endUpdateMode}>취소</Btn>
+              <Btn onClick={updateTweet}>수정 완료</Btn>
+            </>
+          ) : (
+            <>
+              <Btn color="blue" onClick={switchToUpdateMode}>
+                수정
+              </Btn>
+              <Btn onClick={deleteTweet} color="crimson">
+                삭제
+              </Btn>
+            </>
+          )}
+        </Buttons>
+      ) : null}
       <Profile>
         <ProfileImg src={url}></ProfileImg>
       </Profile>
@@ -138,7 +149,11 @@ const Textarea = styled.textarea`
   padding: 8px;
   line-height: 1.4;
 `;
-const Username = styled.p`
+const Username = styled.button`
+  background-color: transparent;
+  border: none;
+  align-self: flex-start;
+  padding: 0;
   color: ${({ theme }) => theme.cardColor};
   font-size: 10px;
   cursor: pointer;
