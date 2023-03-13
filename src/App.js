@@ -5,6 +5,8 @@ import "./styles/reset.css";
 import { lightTheme } from "./styles/theme";
 import Home from "./pages/Home";
 import User from "./pages/User";
+import Login from "./pages/Login";
+import SignUp from "./pages/SignUp";
 
 function App() {
   const router = createBrowserRouter([
@@ -15,6 +17,14 @@ function App() {
     {
       path: "/:username",
       element: <User />,
+    },
+    {
+      path: "/login",
+      element: <Login />,
+    },
+    {
+      path: "/signup",
+      element: <SignUp />,
     },
   ]);
 
