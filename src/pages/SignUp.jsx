@@ -14,7 +14,10 @@ function SignUp() {
     callAPI
       .post("/auth/signup", form)
       .then(({ data }) => {
-        callAPI.defaults.headers["Authorization"] = `Bearer ${data.token}`;
+        const token = `Bearer ${data.token}`;
+        callAPI.defaults.headers["Authorization"] = token;
+        localStorage.setItem("token", token);
+        localStorage.setItem("userId", data.userId);
         return navigate("/");
       })
       .catch((error) => {
