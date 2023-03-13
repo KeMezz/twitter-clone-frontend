@@ -10,7 +10,7 @@ function TweetInput({ setRerender }) {
 
   const onSubmit = ({ text }) => {
     callAPI
-      .post("/tweet", { text, username: "bob" })
+      .post("/tweet", { text })
       .then(({ status }) => {
         console.log(status);
         setRerender((prev) => prev + 1);
