@@ -4,11 +4,13 @@ import { useSetRecoilState } from "recoil";
 import { callAPI } from "../utils/axios";
 import { globalOverlayStatus } from "../utils/recoils";
 import TweetsContainer from "../components/TweetContainer";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   const [tweets, setTweets] = useState([]);
   const [rerender, setRerender] = useState(0);
   const setGlobalOverlay = useSetRecoilState(globalOverlayStatus);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const controller = new AbortController();
@@ -20,8 +22,11 @@ const Home = () => {
       })
       .catch((error) => {
         console.log(error);
+        if (error.response?.status === 401) {
+          return navigate("/login");
+        }
         if (error.message !== "canceled") {
-          setGlobalOverlay({
+          return setGlobalOverlay({
             isOpen: true,
             title: "트윗 불러오기 실패",
             message: error.message,
@@ -32,7 +37,7 @@ const Home = () => {
     return () => {
       controller.abort();
     };
-  }, [setGlobalOverlay, rerender]);
+  }, [setGlobalOverlay, rerender, navigate]);
 
   return (
     <TweetsContainer setRerender={setRerender} tweets={tweets} renderInput />
