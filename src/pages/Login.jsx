@@ -34,7 +34,7 @@ function Login() {
   };
   return (
     <>
-      <Header />
+      <Header canGoBack />
       <Container>
         <Title>서비스를 이용하려면 로그인이 필요해요.</Title>
         <Form onSubmit={handleSubmit(onLoginSubmit)}>
