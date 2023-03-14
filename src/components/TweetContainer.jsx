@@ -20,8 +20,6 @@ const User = ({ setRerender, tweets, renderInput }) => {
 const TweetsBoard = styled.section`
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  padding: 18px;
 `;
 
 export default User;
