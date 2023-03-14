@@ -2,10 +2,15 @@ import styled from "styled-components";
 import { globalOverlayStatus } from "../utils/recoils";
 import { useRecoilState } from "recoil";
 import { AnimatePresence, motion } from "framer-motion";
+import { useEffect } from "react";
 
 function GlobalOverlay() {
   const [globalOverlay, setGlobalOverlay] = useRecoilState(globalOverlayStatus);
   const { isOpen, title, message } = globalOverlay;
+
+  useEffect(() => {
+    document.activeElement.blur();
+  }, [globalOverlay]);
 
   const closeOverlay = () => {
     setGlobalOverlay((prev) => {
@@ -71,6 +76,7 @@ const Overlay = styled(motion.div)`
   left: 0;
   top: 0;
   background-color: rgba(0, 0, 0, 0.15);
+  z-index: 99;
 `;
 const Title = styled.h2`
   font-size: 20px;
