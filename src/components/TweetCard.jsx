@@ -109,7 +109,9 @@ function TweetCard({
           text
         )}
         <CreatedAt>
-          {new Date(createdAt).toLocaleDateString()}에 작성됨.
+          {`${new Date(createdAt).toLocaleDateString()} ${new Date(
+            createdAt
+          ).toLocaleTimeString()}`}
         </CreatedAt>
       </Message>
     </CardContainer>
@@ -119,11 +121,10 @@ function TweetCard({
 const CardContainer = styled.section`
   display: flex;
   gap: 16px;
-  padding: 12px;
+  padding: 24px 14px;
   background-color: #fff;
-  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
-  border-radius: 12px;
   position: relative;
+  border-bottom: solid 1px #ccc;
 `;
 const Buttons = styled.div`
   display: flex;
