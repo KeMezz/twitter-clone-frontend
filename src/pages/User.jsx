@@ -9,14 +9,14 @@ import { useParams } from "react-router-dom";
 const User = () => {
   const [tweets, setTweets] = useState([]);
   const [rerender, setRerender] = useState(0);
-  const { username } = useParams();
-  console.log(username);
+  const { userId } = useParams();
+  console.log(userId);
   const setGlobalOverlay = useSetRecoilState(globalOverlayStatus);
 
   useEffect(() => {
     const controller = new AbortController();
     callAPI
-      .get(`/tweet?username=${username}`, { signal: controller.signal })
+      .get(`/tweet?userId=${userId}`, { signal: controller.signal })
       .then(({ data }) => {
         console.log(data);
         setTweets(data);
@@ -35,7 +35,7 @@ const User = () => {
     return () => {
       controller.abort();
     };
-  }, [setGlobalOverlay, rerender, username]);
+  }, [setGlobalOverlay, rerender, userId]);
 
   return <TweetsContainer setRerender={setRerender} tweets={tweets} />;
 };
