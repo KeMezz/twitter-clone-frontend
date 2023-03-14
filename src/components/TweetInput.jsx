@@ -16,6 +16,7 @@ function TweetInput({ setRerender }) {
       .then(({ status }) => {
         console.log(status);
         setRerender((prev) => prev + 1);
+        document.activeElement.blur();
         reset();
       })
       .catch((error) => {
