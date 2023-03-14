@@ -3,6 +3,7 @@ import { callAPI } from "../utils/axios";
 import { useSetRecoilState } from "recoil";
 import { globalOverlayStatus } from "../utils/recoils";
 import { useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function TweetCard({
   id,
@@ -14,6 +15,7 @@ function TweetCard({
   setRerender,
 }) {
   const inputRef = useRef();
+  const navigate = useNavigate();
   const myUserId = localStorage.getItem("userId");
 
   const [updateMode, setUpdateMode] = useState(false);
@@ -21,6 +23,10 @@ function TweetCard({
 
   const switchToUpdateMode = () => setUpdateMode(true);
   const endUpdateMode = () => setUpdateMode(false);
+
+  const goToUserPage = () => {
+    navigate(`/user/${userId}`);
+  };
 
   const deleteTweet = () => {
     callAPI
@@ -38,6 +44,10 @@ function TweetCard({
         }
       })
       .catch((error) => {
+        console.error(error);
+        if (error.response?.status === 401) {
+          return navigate("/login");
+        }
         setGlobalOverlay({
           isOpen: true,
           title: "트윗 삭제 실패",
@@ -56,6 +66,9 @@ function TweetCard({
       })
       .catch((error) => {
         console.error(error);
+        if (error.response?.status === 401) {
+          return navigate("/login");
+        }
         setGlobalOverlay({
           isOpen: true,
           title: "트윗 수정 실패",
@@ -89,7 +102,7 @@ function TweetCard({
         <ProfileImg src={url}></ProfileImg>
       </Profile>
       <Message>
-        <Username>@{username}</Username>
+        <Username onClick={goToUserPage}>@{username}</Username>
         {updateMode ? (
           <Textarea type="text" defaultValue={text} ref={inputRef} />
         ) : (

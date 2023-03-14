@@ -3,10 +3,12 @@ import { useForm } from "react-hook-form";
 import { globalOverlayStatus } from "../utils/recoils";
 import { useSetRecoilState } from "recoil";
 import { callAPI } from "../utils/axios";
+import { useNavigate } from "react-router-dom";
 
 function TweetInput({ setRerender }) {
   const { register, handleSubmit, reset } = useForm();
   const setGlobalOverlay = useSetRecoilState(globalOverlayStatus);
+  const navigate = useNavigate();
 
   const onSubmit = ({ text }) => {
     callAPI
@@ -18,6 +20,9 @@ function TweetInput({ setRerender }) {
       })
       .catch((error) => {
         console.error(error);
+        if (error.response?.status === 401) {
+          return navigate("/login");
+        }
         setGlobalOverlay({
           isOpen: true,
           title: "트윗 업로드 오류",
