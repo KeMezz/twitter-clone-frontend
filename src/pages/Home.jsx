@@ -5,7 +5,7 @@ import { callAPI } from "../utils/axios";
 import { globalOverlayStatus } from "../utils/recoils";
 import TweetsContainer from "../components/TweetContainer";
 import { useNavigate } from "react-router-dom";
-import { socketIO } from "..";
+import { socketIO } from "../connection/socket";
 
 const Home = () => {
   const [tweets, setTweets] = useState([]);
