@@ -1,5 +1,6 @@
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import styled from "styled-components";
 import Header from "../components/Header";
@@ -9,7 +10,11 @@ import { globalOverlayStatus } from "../utils/recoils";
 function Login() {
   const setGlobalOverlay = useSetRecoilState(globalOverlayStatus);
   const { register, handleSubmit } = useForm();
-  const navigate = useNavigate();
+
+  useEffect(() => {
+    localStorage.clear();
+  }, []);
+
   const onLoginSubmit = (form) => {
     callAPI
       .post("/auth/login", form)
@@ -18,7 +23,9 @@ function Login() {
         callAPI.defaults.headers["Authorization"] = token;
         localStorage.setItem("token", token);
         localStorage.setItem("userId", data.userId);
-        return navigate("/");
+        localStorage.setItem("username", data.username);
+        localStorage.setItem("url", data.url);
+        return window.location.replace("/");
       })
       .catch((error) => {
         console.error(error);
