@@ -6,7 +6,7 @@ import TweetInput from "./TweetInput";
 const User = ({ setRerender, tweets, renderInput }) => {
   return (
     <>
-      <Header canLogOut />
+      <Header canLogOut showProfile />
       {renderInput ? <TweetInput setRerender={setRerender} /> : null}
       <TweetsBoard>
         {tweets.map((tweet) => (

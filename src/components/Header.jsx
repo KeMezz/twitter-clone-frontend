@@ -2,7 +2,8 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { CgChevronLeft, CgLogOut, CgTwitter } from "react-icons/cg";
 
-function Header({ canGoBack, canLogOut }) {
+function Header({ canGoBack, canLogOut, showProfile }) {
+  const url = localStorage.getItem("url") ?? "";
   const logout = () => {
     localStorage.clear();
     window.location.reload();
@@ -26,6 +27,11 @@ function Header({ canGoBack, canLogOut }) {
           <TopBtn onClick={logout}>
             <CgLogOut />
           </TopBtn>
+        ) : null}
+        {showProfile ? (
+          <Profile>
+            <ProfileImg src={url} />
+          </Profile>
         ) : null}
       </Right>
     </Container>
@@ -66,6 +72,18 @@ const Logo = styled.div`
 const Right = styled.div`
   position: absolute;
   right: 14px;
+  display: flex;
+  gap: 8px;
+`;
+const Profile = styled.div`
+  width: 30px;
+  height: 30px;
+  border-radius: 15px;
+  background-color: ${({ theme }) => theme.cardColor};
+  overflow: hidden;
+`;
+const ProfileImg = styled.img`
+  width: 100%;
 `;
 
 export default Header;
