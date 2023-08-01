@@ -22,7 +22,6 @@ function Login() {
         const token = `Bearer ${data.token}`;
         callAPI.defaults.headers["Authorization"] = token;
         localStorage.setItem("token", token);
-        localStorage.setItem("userId", data.userId);
         localStorage.setItem("username", data.username);
         localStorage.setItem("url", data.url);
         return window.location.replace("/");

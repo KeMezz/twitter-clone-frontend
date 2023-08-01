@@ -5,18 +5,10 @@ import { globalOverlayStatus } from "../utils/recoils";
 import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-function TweetCard({
-  id,
-  userId,
-  text,
-  createdAt,
-  url,
-  username,
-  setRerender,
-}) {
+function TweetCard({ id, text, createdAt, url, username, setRerender }) {
   const inputRef = useRef();
   const navigate = useNavigate();
-  const myUserId = localStorage.getItem("userId");
+  const myUsername = localStorage.getItem("username");
 
   const [updateMode, setUpdateMode] = useState(false);
   const setGlobalOverlay = useSetRecoilState(globalOverlayStatus);
@@ -25,7 +17,7 @@ function TweetCard({
   const endUpdateMode = () => setUpdateMode(false);
 
   const goToUserPage = () => {
-    navigate(`/user/${userId}`);
+    navigate(`/user/${username}`);
   };
 
   const deleteTweet = () => {
@@ -79,7 +71,7 @@ function TweetCard({
 
   return (
     <CardContainer>
-      {myUserId === userId ? (
+      {myUsername === username ? (
         <Buttons>
           {updateMode ? (
             <>

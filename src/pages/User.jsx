@@ -9,20 +9,18 @@ import { useParams } from "react-router-dom";
 const User = () => {
   const [tweets, setTweets] = useState([]);
   const [rerender, setRerender] = useState(0);
-  const { userId } = useParams();
-  console.log(userId);
+  const { username } = useParams();
   const setGlobalOverlay = useSetRecoilState(globalOverlayStatus);
 
   useEffect(() => {
     const controller = new AbortController();
     callAPI
-      .get(`/tweet?userId=${userId}`, { signal: controller.signal })
+      .get(`/tweet?username=${username}`, { signal: controller.signal })
       .then(({ data }) => {
-        console.log(data);
         setTweets(data);
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
         if (error.message !== "canceled") {
           setGlobalOverlay({
             isOpen: true,
@@ -35,7 +33,7 @@ const User = () => {
     return () => {
       controller.abort();
     };
-  }, [setGlobalOverlay, rerender, userId]);
+  }, [setGlobalOverlay, rerender, username]);
 
   return <TweetsContainer setRerender={setRerender} tweets={tweets} />;
 };
