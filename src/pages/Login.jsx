@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
@@ -10,12 +10,14 @@ import { globalOverlayStatus } from "../utils/recoils";
 function Login() {
   const setGlobalOverlay = useSetRecoilState(globalOverlayStatus);
   const { register, handleSubmit } = useForm();
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     localStorage.clear();
   }, []);
 
   const onLoginSubmit = (form) => {
+    setLoading(true);
     callAPI
       .post("/auth/login", form)
       .then(({ data }) => {
@@ -29,6 +31,7 @@ function Login() {
       .catch((error) => {
         console.error(error);
         if (error.message !== "canceled") {
+          setLoading(false);
           return setGlobalOverlay({
             isOpen: true,
             title: "로그인 실패",
@@ -54,7 +57,7 @@ function Login() {
             placeholder="비밀번호..."
             {...register("password", { required: "비밀번호를 입력해주세요." })}
           />
-          <LoginBtn>로그인</LoginBtn>
+          <LoginBtn>{loading ? "로그인 중..." : "로그인"}</LoginBtn>
         </Form>
         <GoToSignUp>
           <span>아직 계정이 없나요?</span>

@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useSetRecoilState } from "recoil";
 import styled from "styled-components";
@@ -9,12 +9,14 @@ import { globalOverlayStatus } from "../utils/recoils";
 function SignUp() {
   const setGlobalOverlay = useSetRecoilState(globalOverlayStatus);
   const { register, handleSubmit } = useForm();
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     localStorage.clear();
   }, []);
 
   const onSignUpSubmit = (form) => {
+    setLoading(true);
     callAPI
       .post("/auth/signup", form)
       .then(({ data }) => {
@@ -29,6 +31,7 @@ function SignUp() {
       .catch((error) => {
         console.error(error);
         if (error.message !== "canceled") {
+          setLoading(false);
           return setGlobalOverlay({
             isOpen: true,
             title: "회원가입 실패",
@@ -60,7 +63,7 @@ function SignUp() {
             placeholder="프로필 이미지 URL... (선택)"
             {...register("url")}
           />
-          <SignUpBtn>회원 등록</SignUpBtn>
+          <SignUpBtn>{loading ? "생성 중..." : "회원 등록"}</SignUpBtn>
         </Form>
       </Container>
     </>
