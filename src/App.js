@@ -9,24 +9,27 @@ import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 
 function App() {
-  const router = createBrowserRouter([
-    {
-      path: "/",
-      element: <Home />,
-    },
-    {
-      path: "/user/:username",
-      element: <User />,
-    },
-    {
-      path: "/login",
-      element: <Login />,
-    },
-    {
-      path: "/signup",
-      element: <SignUp />,
-    },
-  ]);
+  const router = createBrowserRouter(
+    [
+      {
+        path: "/",
+        element: <Home />,
+      },
+      {
+        path: "/user/:username",
+        element: <User />,
+      },
+      {
+        path: "/login",
+        element: <Login />,
+      },
+      {
+        path: "/signup",
+        element: <SignUp />,
+      },
+    ],
+    { basename: process.env.PUBLIC_URL }
+  );
 
   return (
     <ThemeProvider theme={lightTheme}>
