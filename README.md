@@ -25,3 +25,7 @@
 ## 🚀 배포
 
 Github Pages로 배포 예정
+
+## 🔗 링크
+
+[트위터 클론 백엔드 레포지터리](https://github.com/KeMezz/twitter-clone-backend)
