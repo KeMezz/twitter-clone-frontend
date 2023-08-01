@@ -6,7 +6,7 @@
 </h1>
 
 <div align="center">
-  <img alt="screenshot" src="./screenshots/1.png" />
+  <img alt="screenshot" src="./src/screenshots/1.png" />
 </div>
 
 ## 👻 소개
