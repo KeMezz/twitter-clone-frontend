@@ -22,11 +22,9 @@ const Home = () => {
     callAPI
       .get("/tweet", { signal: controller.signal })
       .then(({ data }) => {
-        console.log(data);
         setTweets(data);
       })
       .catch((error) => {
-        console.log(error);
         if (error.response?.status === 401) {
           return navigate("/login");
         }
