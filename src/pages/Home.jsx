@@ -5,7 +5,7 @@ import { callAPI } from "../utils/axios";
 import { globalOverlayStatus } from "../utils/recoils";
 import TweetsContainer from "../components/TweetContainer";
 import { useNavigate } from "react-router-dom";
-import { socketIO } from "../connection/socket";
+// import { socketIO } from "../connection/socket";
 
 const Home = () => {
   const [tweets, setTweets] = useState([]);
@@ -13,9 +13,9 @@ const Home = () => {
   const setGlobalOverlay = useSetRecoilState(globalOverlayStatus);
   const navigate = useNavigate();
 
-  socketIO.on("tweetUpdated", () => {
-    setRerender((prev) => prev + 1);
-  });
+  // socketIO.on("tweetUpdated", () => {
+  //   setRerender((prev) => prev + 1);
+  // });
 
   useEffect(() => {
     const controller = new AbortController();
