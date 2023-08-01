@@ -1,6 +1,6 @@
 import styled, { createGlobalStyle, ThemeProvider } from "styled-components";
 import GlobalOverlay from "./components/GlobalOverlay";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./styles/reset.css";
 import { lightTheme } from "./styles/theme";
 import Home from "./pages/Home";
@@ -9,34 +9,19 @@ import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 
 function App() {
-  const router = createBrowserRouter(
-    [
-      {
-        path: "/",
-        element: <Home />,
-      },
-      {
-        path: "/user/:username",
-        element: <User />,
-      },
-      {
-        path: "/login",
-        element: <Login />,
-      },
-      {
-        path: "/signup",
-        element: <SignUp />,
-      },
-    ],
-    { basename: process.env.PUBLIC_URL }
-  );
-
   return (
     <ThemeProvider theme={lightTheme}>
       <GlobalOverlay />
       <GlobalStyles />
       <Container>
-        <RouterProvider router={router} />
+        <BrowserRouter basename={process.env.PUBLIC_URL}>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/user/:username" element={<User />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<SignUp />} />
+          </Routes>
+        </BrowserRouter>
       </Container>
     </ThemeProvider>
   );
