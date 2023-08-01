@@ -24,7 +24,6 @@ function TweetCard({ id, text, createdAt, url, username, setRerender }) {
     callAPI
       .delete(`/tweet`, { data: { id } })
       .then((response) => {
-        console.log(response);
         if (response.status === 204) {
           setRerender((prev) => prev + 1);
         } else {
@@ -36,7 +35,6 @@ function TweetCard({ id, text, createdAt, url, username, setRerender }) {
         }
       })
       .catch((error) => {
-        console.error(error);
         if (error.response?.status === 401) {
           return navigate("/login");
         }
@@ -52,12 +50,10 @@ function TweetCard({ id, text, createdAt, url, username, setRerender }) {
     callAPI
       .put(`/tweet`, { id, text: inputRef.current.value })
       .then((response) => {
-        console.log(response);
         setUpdateMode(false);
         setRerender((prev) => prev + 1);
       })
       .catch((error) => {
-        console.error(error);
         if (error.response?.status === 401) {
           return navigate("/login");
         }
@@ -137,9 +133,12 @@ const Profile = styled.div`
   border-radius: 30px;
   background-color: ${({ theme }) => theme.cardColor};
   overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 const ProfileImg = styled.img`
-  width: 100%;
+  height: 100%;
 `;
 const Message = styled.div`
   display: flex;

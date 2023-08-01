@@ -81,9 +81,12 @@ const Profile = styled.div`
   border-radius: 15px;
   background-color: ${({ theme }) => theme.cardColor};
   overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 const ProfileImg = styled.img`
-  width: 100%;
+  height: 100%;
 `;
 
 export default Header;
