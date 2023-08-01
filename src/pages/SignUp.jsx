@@ -5,8 +5,10 @@ import styled from "styled-components";
 import Header from "../components/Header";
 import { callAPI } from "../utils/axios";
 import { globalOverlayStatus } from "../utils/recoils";
+import { useNavigate } from "react-router-dom";
 
 function SignUp() {
+  const navigate = useNavigate();
   const setGlobalOverlay = useSetRecoilState(globalOverlayStatus);
   const { register, handleSubmit } = useForm();
   const [loading, setLoading] = useState(false);
@@ -26,7 +28,7 @@ function SignUp() {
         localStorage.setItem("username", data.username);
         localStorage.setItem("url", data.url);
         console.log(data);
-        return window.location.replace("/");
+        return navigate("/");
       })
       .catch((error) => {
         console.error(error);

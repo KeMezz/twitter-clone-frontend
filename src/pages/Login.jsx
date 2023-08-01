@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import styled from "styled-components";
 import Header from "../components/Header";
@@ -11,6 +11,7 @@ function Login() {
   const setGlobalOverlay = useSetRecoilState(globalOverlayStatus);
   const { register, handleSubmit } = useForm();
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     localStorage.clear();
@@ -26,7 +27,7 @@ function Login() {
         localStorage.setItem("token", token);
         localStorage.setItem("username", data.username);
         localStorage.setItem("url", data.url);
-        return window.location.replace("/");
+        return navigate("/");
       })
       .catch((error) => {
         console.error(error);
