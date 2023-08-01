@@ -1,11 +1,11 @@
 {
   "files": {
     "main.css": "/twitter-clone-frontend/static/css/main.7fbe8cd5.css",
-    "main.js": "/twitter-clone-frontend/static/js/main.3bbd80ca.js",
+    "main.js": "/twitter-clone-frontend/static/js/main.49235090.js",
     "index.html": "/twitter-clone-frontend/index.html"
   },
   "entrypoints": [
     "static/css/main.7fbe8cd5.css",
-    "static/js/main.3bbd80ca.js"
+    "static/js/main.49235090.js"
   ]
 }
